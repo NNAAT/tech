@@ -37,3 +37,25 @@ JOIN wind_clusters as WC ON WT.cluster_id = WC.cluster_id
 SELECT (st_Dump(ST_Union(ST_Buffer(geom, 102*28)))).geom
 INTO wind_farm_buffer
 FROM wind_farm_turbines
+
+
+-- STATE ROAD BUFFER
+
+SELECT ST_Buffer(state_roads.geom, 250)
+INTO state_roads_buffer
+FROM state_roads;
+
+
+-- MUNICIPALITY ROAD BUFFER
+
+SELECT ST_Buffer(MR.geom, 250)
+INTO municipality_roads_buffer
+FROM municipality_roads as MR
+WHERE MR.vejstatus = 'Offentlig';
+
+
+-- RAILROAD BUFFER
+
+SELECT ST_Buffer(railroad.geom, 250)
+INTO railroad_buffer
+FROM railroad;
