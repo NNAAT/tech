@@ -34,6 +34,62 @@ FROM wind_turbines as WT
 JOIN wind_clusters as WC ON WT.cluster_id = WC.cluster_id
 
 -- Creating buffers 28 time the height of wind turbines (Model - Vestas 47-660 KW) in wind farms
-SELECT (st_Dump(ST_Union(ST_Buffer(geom, 102*28)))).geom
+SELECT (ST_Dump(ST_Union(ST_Buffer(geom, 102*28)))).geom
 INTO wind_farm_buffer
 FROM wind_farm_turbines
+
+
+-- STATE ROAD BUFFER
+
+SELECT ST_Buffer(state_roads.geom, 250)
+INTO state_roads_buffer
+FROM state_roads;
+
+
+-- MUNICIPALITY ROAD BUFFER
+
+SELECT ST_Buffer(MR.geom, 250)
+INTO municipality_roads_buffer
+FROM municipality_roads as MR
+WHERE MR.vejstatus = 'Offentlig';
+
+
+-- RAILROAD BUFFER
+
+SELECT ST_Buffer(railroad.geom, 250)
+INTO railroad_buffer
+FROM railroad;
+
+
+-- RESIDENTIAL AREAS BUFFER
+
+-- Creating table with attributes regarding building uses
+
+CREATE TABLE building_attributes(
+           idprime serial primary key,
+           OIS_ID integer,
+           BYG_ANVEND integer,
+           BYG_ANVE_1 varchar,
+           KoorNord float,
+           KoorOest float,
+		   geom geometry
+);
+
+-- When importing the .dbf-file to "building_attributes" encoding is set to LATIN1
+
+-- Building attributes are given points based on their coordinates and spatial reference system
+
+UPDATE building_attributes SET geom = ST_SetSRID(ST_MakePoint(KoorOest, KoorNord), 25832);
+
+-- Selecting all residential buildings
+
+SELECT (ST_Dump(ST_Union(ST_Buffer(B.geom, 102*4)))).geom
+INTO Residential_areas_buffer
+FROM buildings AS B
+INNER JOIN building_attributes AS BA ON ST_Intersects(B.geom, BA.geom)
+-- Codes for building use
+-- Source: http://bbr.dk/byg-anvendelse/0/30 
+WHERE BA.byg_anvend IN (110, 120, 130, 140, 150, 160, 190, 510, 520, 530, 540, 550)
+
+
+
