@@ -34,7 +34,7 @@ FROM wind_turbines as WT
 JOIN wind_clusters as WC ON WT.cluster_id = WC.cluster_id
 
 -- Creating buffers 28 time the height of wind turbines (Model - Vestas 47-660 KW) in wind farms
-SELECT (st_Dump(ST_Union(ST_Buffer(geom, 102*28)))).geom
+SELECT (ST_Dump(ST_Union(ST_Buffer(geom, 102*28)))).geom
 INTO wind_farm_buffer
 FROM wind_farm_turbines
 
@@ -83,7 +83,7 @@ UPDATE building_attributes SET geom = ST_SetSRID(ST_MakePoint(KoorOest, KoorNord
 
 -- Selecting all residential buildings
 
-SELECT ST_Buffer(B.geom, 102*4)
+SELECT (ST_Dump(ST_Union(ST_Buffer(B.geom, 102*4)))).geom
 INTO Residential_areas_buffer
 FROM buildings AS B
 INNER JOIN building_attributes AS BA ON ST_Intersects(B.geom, BA.geom)
