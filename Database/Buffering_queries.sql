@@ -79,7 +79,7 @@ CREATE TABLE building_attributes(
 
 -- Building attributes are given points based on their coordinates and spatial reference system
 
-UPDATE building_attributes SET geom = ST_SetSRID(ST_MakePoint(KoorOest, KoorNord), 25832);
+UPDATE building_attributes SET geom = ST_SetSRID(ST_MakePoint(KoorOest, KoorNord), 3044);
 
 -- Selecting all residential buildings
 
