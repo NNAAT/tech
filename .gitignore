@@ -1,0 +1,13 @@
+# Ignore all vim cache files and logs
+*.swp
+*.log
+
+# Ignore non-code paths
+/Database/SHP_FILES/
+/Database/SQL_LOGS/
+/Database/TEMP_SQL_FILES/
+
+# Ignore Visual Studio build folders
+obj/
+bin/
+.vs/
