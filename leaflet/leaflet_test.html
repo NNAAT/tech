@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+	
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css">
+	
+	<!-- Slider -->
+	<link rel="stylesheet" href="dist/leaflet-slider.css"/>
+	
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	
+	<!-- Slider -->
+	<script src="dist/leaflet-slider.js"></script>
+	
+
+
+	<style>
+		#mapid { height: 450px; }
+		#mapid { width: 800px; }
+		
+		.leaflet-control-slider {
+		top: 1.5em;
+		left: 0em;
+		}
+		
+	</style>
+</head>
+
+<body>
+
+<div id="mapid" </div>
+
+<script>
+	var mymap = L.map('mapid').setView([51.505, -0.09], 18);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2VucHJ0bjAwOXoyeW54MXR1Y3ZhaTgifQ.8kAMBwWX50TDpzcDUBqxyA', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		maxZoom: 18,
+		minZoom: 0,
+		id: 'mapbox.mapbox-streets-v7',
+		accessToken: 'pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2VucHJ0bjAwOXoyeW54MXR1Y3ZhaTgifQ.8kAMBwWX50TDpzcDUBqxyA'
+	}).addTo(mymap);
+
+	slider = L.control.slider(function(value) {
+    		console.log(value);
+		}, {
+    	max: 10,
+    	value: 5,
+    	step:1,
+    	size: '180px',
+    	orientation:'horizontal',
+    	id: 'slider',
+		collapsed: false,
+		position: 'topleft'
+	}).addTo(mymap);
+	
+	slider = L.control.slider(function(value) {
+    		console.log(value);
+		}, {
+    	max: 10,
+    	value: 5,
+    	step:1,
+    	size: '180px',
+    	orientation:'horizontal',
+    	id: 'slider',
+		collapsed: false,
+		position: 'topleft'
+	}).addTo(mymap);
+	
+	slider = L.control.slider(function(value) {
+    		console.log(value);
+		}, {
+    	max: 10,
+    	value: 5,
+    	step:1,
+    	size: '180px',
+    	orientation:'horizontal',
+    	id: 'slider',
+		collapsed: false,
+		position: 'topleft'
+	}).addTo(mymap);
+	
+	
+</script>
+
+</body>
+
+
+
+
+
+
