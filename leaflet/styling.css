@@ -1,0 +1,8 @@
+#mapid { height: 450px; }
+#mapid { width: 800px; }
+		
+.leaflet-control-slider {
+	top: 1.5em;
+	left: 0em;
+}
+
