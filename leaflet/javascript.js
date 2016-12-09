@@ -8,10 +8,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 	accessToken: 'pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2VucHJ0bjAwOXoyeW54MXR1Y3ZhaTgifQ.8kAMBwWX50TDpzcDUBqxyA'
 }).addTo(mymap);
 
-var slider_value_1 = 0
-
 var slider = L.control.slider(function(value) {
-   		console.log(value);
+   		slider_value = value;
 	}, {
    	max: 10,
    	value: 5,
@@ -36,7 +34,7 @@ var popup = L.popup();
 function onHexClick(e) {
 	popup
 		.setLatLng(e.latlng)
-		.setContent("You clicked the map at " + e.latlng.toString() + ". The slider value is ")
+		.setContent("You clicked the map at " + e.latlng.toString() + ". The slider value is " + slider_value)
 		.openOn(mymap);
 }
 
