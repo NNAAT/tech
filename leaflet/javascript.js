@@ -22,12 +22,19 @@ var slider = L.control.slider(function(value) {
 	id: "slider_1"
 }).addTo(mymap);
 	
-	
+
 L.control.betterscale({
 	position: 'bottomleft',
 	maxWidth: 250
 }).addTo(mymap);
-	
+
+/*
+var graphicScale = L.control.graphicScale({
+	doubleLine: true,
+	fill: 'fill',
+       showSubunits: true
+}).addTo(mymap);
+*/
 	
 var popup = L.popup();
   
