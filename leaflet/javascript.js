@@ -16,9 +16,9 @@ var slider = L.control.slider(function(value) {
    	step:1,
    	size: '180px',
    	orientation:'horizontal',
-   	id: 'slider',
 	collapsed: false,
 	position: 'topleft',
+	title: 'Nature',
 	id: "slider_1"
 }).addTo(mymap);
 	
