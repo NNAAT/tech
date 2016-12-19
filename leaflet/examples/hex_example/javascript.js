@@ -1,20 +1,36 @@
 // Setting center and zoom level of the map
-var map = L.map('map').setView([56.28453, 10.45761], 14);
+//var map = L.map('map').setView([56.28453, 10.45761], 14);
+//var map = L.map('map').setView([56.28453, 10.45761], 13);
+var map = L.map('map').setView([56.28453, 10.45761], 12);
+
+// WMS-service
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2l6MWU4djAwMDMydW1vZTh6Mm1uMXYifQ.DXuWMBcdR94VOKS48x5bAw', {
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	maxZoom: 18,
+	minZoom: 0,
+}).addTo(map);
 
 // Loading the geoJSON file
 var geojson = L.geoJson(hexGrid).addTo(map);
 
-
-//var wms_map = L.map('wms_map').setView([56.28453, 10.45761], 14);
-
-//var wmsLayer = L.tileLayer.wms('http://demo.opengeo.org/geoserver/ows?', {
-//	layers: 'ne:ne'
-//}).addTo(wms_map);
-
-
 // Sliders, user values, x.
+var economy_value = 5;
+
+var nature_value = 5;
+
+var landscape_value = 5;
+
+var resource_value = 5;
+
+var opacity_value = 0.3;
+
+var styleRun = 0;
+
 var economy_slider = L.control.slider(function(value) {
    		economy_value = value;
+		if (styleRun == 1) {
+			L.geoJson(hexGrid, {style: style}).addTo(map);
+		}
 	}, {
    	max: 10,
    	value: 5,
@@ -28,9 +44,18 @@ var economy_slider = L.control.slider(function(value) {
 	id: "slider_1"
 }).addTo(map);
 
+/*
+economy_slider.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'economy_slider', document.body);
+    return this._div;
+}
+*/
 
 var slider = L.control.slider(function(value) {
    		nature_value = value;
+		if (styleRun == 1) {
+			L.geoJson(hexGrid, {style: style}).addTo(map);
+		}
 	}, {
    	max: 10,
    	value: 5,
@@ -46,6 +71,9 @@ var slider = L.control.slider(function(value) {
 
 var slider = L.control.slider(function(value) {
    		landscape_value = value;
+		if (styleRun == 1) {
+			L.geoJson(hexGrid, {style: style}).addTo(map);
+		}
 	}, {
    	max: 10,
    	value: 5,
@@ -59,8 +87,17 @@ var slider = L.control.slider(function(value) {
 	id: "slider_3"
 }).addTo(map);
 
+resource_value = '';
+
 var slider = L.control.slider(function(value) {
-   		resource_value = value;
+   		old_resource_value = resource_value;
+		resource_value = value;
+		if (styleRun == 1) {
+			L.geoJson(hexGrid, {style: style}).addTo(map);
+		}
+	/*	if (resource_value != '') {
+			sliderUpdate(old_resource_value, resource_value)
+		} */
 	}, {
    	max: 10,
    	value: 5,
@@ -74,61 +111,228 @@ var slider = L.control.slider(function(value) {
 	id: "slider_4"
 }).addTo(map);
 
+opacity_value = 0.3;
+
+var slider = L.control.slider(function(value) {
+	//	prev_opacity_value = opacity_value;
+	//	console.log(prev_opacity_value);
+   		opacity_value = value / 100;
+		if (styleRun == 1) {
+			L.geoJson(hexGrid, {style: style}).addTo(map);
+		}
+	//	geoJson.resetStyle;
+	}, {
+   	max: 100,
+   	value: 30,
+   	step:1,
+   	size: '180px',
+   	orientation:'horizontal',
+	collapsed: false,
+	position: 'topleft',
+	title: 'Ressources',
+	Logo: 'Resources',
+	id: "slider_5"
+}).addTo(map);
+
 // STYLING
 
-// Weight categories, w.
 
-// Restricted areas
-var weightGroup_1 = 0.00;
-
-// Unreceptive areas
-var weightGroup_2 = 0.25;
-
-// Limiting areas
-var weightGroup_3 = 0.50;
-
-// Advantageous areas
-var weightGroup_4 = 0.75;
-
-// Free areas
-var weightGroup_5 = 1.00;
 
 var layersValue = []
 
-var hexValue = [];
+var hexValue;
 
-for (i = 0; i <= hexGrid.features.length; i++) {
-/*
-	hexLeftArea = hexArea - Area_0;
+function calculation(feature) {
+
+	// Category 0 (restrictive)
+		// Economy
+		// Nature
+		// Landscape
+		// Resources	
+	// Category A (unreceptive)
+		// Economy
+		// Nature
+		var lowlands_area = 1 - feature.properties.lowlands_ratio;
+		var wetlands_area = 1 - feature.properties.wetlands_ratio;
+		var protected_nature_types_area = 1 -feature.properties.protected_nature_types_ratio;
+		// Landscape
+		var muncipality_road_area = 1 - feature.properties.municipality_road_ratio;
+		var wind_farm_buffer_area = 1 - feature.properties.wind_turbine_site_ratio;
+		// Resources
+		var v2_soil_polution_area = 1 - feature.properties.v2_soil_polution_ratio;
+		var raw_material_sites_area = 1 - feature.properties.raw_material_sites_ratio;
 	
-	area_a = area_a1 + area_a2 + area_a3 + area_a4;
-	area_b = area_b1 + area_b2 + area_b3 + area_b4;
-	area_c = area_c1 + area_c2 + area_c3 + area_c4;
+	// Category B (Limited)
+		// Economy
+		// Nature
+		// Landscape
+		// Resources
+		var v1_soil_polution_area = 1 - feature.properties.v1_soil_polution_ratio;
+		var drinking_water_area = 1 - feature.properties.drinking_water_interest_ratio;
+	// Category C (Advantageous)
+		// Economy
+		var technical_areas_area = 1 - feature.properties.technical_areas_ratio;
+		// Nature
+		// Landscape
+		// Resources	
 	
-	step_1 = 1 - (Area_0 / hexArea);
-	step_2 = hexLeftArea / (area_1 + area_a + area_b + area_c);
-	areaWeight_1 = 1 * (area_1 / hexLeftArea);
+	/*
 	
-	areaWeight_a1 = (economy_value * weightGroup_2 + economy_value * (area_a1 / hexLeftArea)) / 2;
-	areaWeight_a2 = areaWeight_a1 + (nature_value * weightGroup_2 + nature_value * (area_a2 / hexLeftArea)) / 2;
-	areaWeight_a3 = areaWeight_a2 + (landscape_value * weightGroup_2 + landscape_value * (area_a3 / hexLeftArea)) / 2;
-	areaWeight_a4 = areaWeight_a3 + (resource_value * weightGroup_2 + resource_value * (area_a4 / hexLeftArea)) / 2;
+	feature.properties.v1_soil_polution_ratio; Limited / resources
+	feature.properties.municipality_road_ratio; unreceptive / landscape
+	feature.properties.forest_reserve_ratio; restrictive / nature
+	feature.properties.forest_ratio; restrictive / nature
+	feature.properties.ramsar_area_ratio;  restrictive / nature
+	feature.properties.nature_and_wildlife_sanctuary_ratio; restrictive / nature
+	feature.properties.drinking_water_interest_ratio; limited / resources
 	
-	areaWeight_b1 = areaWeight_a4 + (economy_value * weightGroup_3 + economy_value * (area_b1 / hexLeftArea)) / 2;
-	areaWeight_b2 = areaWeight_b1 + (nature_value * weightGroup_3 + nature_value * (area_b2 / hexLeftArea)) / 2;
-	areaWeight_b3 = areaWeight_b2 + (landscape_value * weightGroup_3 + landscape_value * (area_b3 / hexLeftArea)) / 2;
-	areaWeight_b4 = areaWeight_b3 + (resource_value * weightGroup_3 + resource_value * (area_b4 / hexLeftArea)) / 2;
+	feature.properties.roadsides_ratio; restrictive / landscape
+	feature.properties.lowlands_ratio; unreceptive / nature
+	feature.properties.technical_areas_ratio; advantageuos / economy
 	
-	areaWeight_c1 = areaWeight_b4 + (economy_value * weightGroup_4 + economy_value * (area_c1 / hexLeftArea)) / 2;
-	areaWeight_c2 = areaWeight_c1 + (nature_value * weightGroup_4 + nature_value * (area_c2 / hexLeftArea)) / 2;
-	areaWeight_c3 = areaWeight_c2 + (landscape_value * weightGroup_4 + landscape_value * (area_c3 / hexLeftArea)) / 2;
-	areaWeight_c4 = areaWeight_c3 + (resource_value * weightGroup_4 + resource_value * (area_c4 / hexLeftArea)) / 2;
+	feature.properties.wind_turbine_site_ratio; unreceptive / ASSUMING ITS WIND_FARM_BUFFER
+	feature.properties.church_protection_line_ratio; restrictive
+	feature.properties.natural_bird_protection_ratio; restrictive
+	feature.properties.lake_protection_line_ratio; restrictive
+	feature.properties.state_road_ratio; restrictive
+	feature.properties.edge_water_stream_ratio; restrictive
+	feature.properties.dune_conservation_ratio; restrictive
 	
-	// HVORDAN IDENTIFICERER JEG CATEGORY
-	// HVORDAN IDENTIFICERER JEG SLIDER
+	feature.properties.nature_registration_ratio; 
 	
-	// hexValue.push({ hexid: i, layerid: k, categoryid: 1, value: })
-*/
+	feature.properties.beach_protection_ratio;
+	
+	feature.properties.v2_soil_polution_ratio; unreceptive / resource
+	
+	feature.properties.wind_turbine_ratio; restrictive
+	
+	feature.properties.raw_material_sites_ratio; unreceptive / resource
+	
+	feature.properties.wetlands_ratio; unreceptive / nature
+	feature.properties.protected_water_streams_ratio; restrictive
+	feature.properties.building_ratio; restrictive
+	feature.properties.railroad_ratio; /restrictive
+	feature.properties.coast_line_zone_ratio;
+	feature.properties.burial_area_ratio;
+	feature.properties.protected_nature_types_ratio;
+	feature.properties.conservation_ratio;
+	feature.properties.lakes_ratio;
+	feature.properties.protected_earth_stone_dikes_ratio;
+	feature.properties.natural_habitat_ratio;
+	feature.properties.protected_ancient_sites_ratio;
+	
+	*/
+		
+	
+	// Restricted areas
+	var w_0 = 0.00;
+
+	// Free areas
+	var w_1 = 1.00;	
+	
+	// Unreceptive areas
+	var w_a = 0.25;
+
+	// Limiting areas
+	var w_b = 0.50;
+
+	// Advantageous areas
+	var w_c = 0.75;
+
+	
+	// Economy slider / user value
+	var x_1 = economy_value;
+	
+	// Nature slider / user value
+	var x_2 = nature_value;
+	
+	// landscape slider / user value
+	var x_3 = landscape_value;
+	
+	// Resource slider / user value
+	var x_4 = resource_value;
+	
+	// Sum of slider / user values
+	var x_sum = x_1 + x_2 + x_3 + x_4;
+	
+	// Hex area
+	var A_Hex = 1.0;
+		
+	// Restricted area
+	var A_0 = 0.3;
+		
+	// Free area
+	var A_1 = 0.4; // needs to be calculated on the back-end, database
+	
+	// Category a areas (unreceptive)
+	var A_a1 = 0;
+	var A_a2 = lowlands_area + wetlands_area + protected_nature_types_area;
+	var A_a3 = muncipality_road_area + wind_farm_buffer_area;
+	var A_a4 = v2_soil_polution_area;
+	var A_a = A_a1 + A_a2 + A_a3 + A_a4;
+	
+	// Category b areas (limited)
+	var A_b1 = 0;
+	var A_b2 = 0;
+	var A_b3 = 0;
+	var A_b4 = v1_soil_polution_area + drinking_water_area;	
+	var A_b = A_b1 + A_b2 + A_b3 + A_b4;
+	
+	// Category c areas (advantageous)
+	var A_c1 = technical_areas_area;
+	var A_c2 = 0;
+	var A_c3 = 0;
+	var A_c4 = 0;	
+	var A_c = A_c1 + A_c2 + A_c3 + A_c4;
+	
+	var A_standardized = (A_Hex - A_0) / (A_1 + A_a + A_b + A_c);
+	
+	var step_1 = w_1 * A_1 / (A_Hex - A_0);
+	
+	if (A_a > 0 && x_sum > 0) {
+		var step_2_wa_1 = ((x_1 / x_sum) * (A_a1 / A_a)) + ((x_2 / x_sum) * (A_a2 / A_a));
+		var step_2_wa_2 = step_2_wa_1 + ((x_3 / x_sum) * (A_a3 / A_a)) + ((x_4 / x_sum) * (A_a4 / A_a));
+		var step_2_wa_3 = ((w_a + step_2_wa_2) * (A_a / (A_Hex - A_0))) / 2;
+	} else {
+		var step_2_wa_3 = 0;
+	}
+	
+	if (A_b > 0 && x_sum > 0) {
+		var step_3_wb_1 = ((x_1 / x_sum) * (A_b1 / A_b)) + ((x_2 / x_sum) * (A_b2 / A_b));
+		var step_3_wb_2 = step_3_wb_1 + ((x_3 / x_sum) * (A_b3 / A_b)) + ((x_4 / x_sum) * (A_b4 / A_b));
+		var step_3_wb_3 = ((w_b + step_3_wb_2) * (A_b / (A_Hex - A_0))) / 2;
+	} else {
+		var step_3_wb_3 = 0;
+	}	
+	
+	if (A_c > 0 && x_sum > 0) {
+		var step_4_wc_1 = ((x_1 / x_sum) * (A_c1 / A_c)) + ((x_2 / x_sum) * (A_c2 / A_c));
+		var step_4_wc_2 = step_4_wc_1 + ((x_3 / x_sum) * (A_c3 / A_c)) + ((x_4 / x_sum) * (A_c4 / A_c));
+		var step_4_wc_3 = ((w_c + step_4_wc_2) * (A_c / (A_Hex - A_0))) / 2;
+	} else {
+		var step_4_wc_3 = 0;
+	}
+	
+	var S_k = A_standardized * (step_1 + step_2_wa_3 + step_3_wb_3 + step_4_wc_3)
+	
+	var V_k = (1 - (A_0 / A_Hex)) * S_k;
+	
+
+
+	//console.log(A_standardized)
+	//console.log(step_1)
+	//console.log(step_2_wa_3)
+	//console.log(step_3_wb_3)
+	//console.log(step_4_wc_3)
+	
+	console.log(economy_value);
+//	console.log(nature_value);
+//	console.log(resource_value);
+//	console.log(landscape_value);
+	
+	// console.log(V_k);
+
+	return V_k;
 }
 
 function getColor(value) {
@@ -140,19 +344,19 @@ function getColor(value) {
 }
 
 function style(feature) {
+	styleRun = 1;
     return {
-        fillColor: getColor(feature.properties.beach_protection_ratio),
+        fillColor: getColor(calculation(feature)),
         weight: 2,
         opacity: 0.4,
         color: 'white',
         dashArray: '3',
-        fillOpacity: 0.7
+        fillOpacity: opacity_value
     };
 }
 
 
 L.geoJson(hexGrid, {style: style}).addTo(map);
-
 
 // EVENT HANDLER
 
@@ -177,8 +381,6 @@ function highlightFeature(e) {
     }
 	info.update(layer.feature.properties);
 	panelUpdate(layer.feature.properties);
-		
-	console.log(8)
 	
 	prevClickedLayer = layer;
 }
@@ -196,7 +398,13 @@ function onEachFeature(feature, layer) {
 	});
 }
 
-
+/*
+function sliderUpdate(oldValue, newValue) {
+	if (oldValue != newValue) {
+		geojson.setStyle(style(feature))
+	}
+}
+*/
 
 // Panel sliding up and down
 $(document).on('click', 'span.clickable', function(e){
@@ -217,7 +425,6 @@ $(document).on('click', 'span.clickable', function(e){
 })
 
 
-
 geojson = L.geoJson(hexGrid, {
     style: style,
     onEachFeature: onEachFeature
@@ -230,15 +437,16 @@ var jsPanel = document.querySelector('.panel-body');
 panelUpdate = function (props) {
     jsPanel.innerHTML = '<h4>Hexagon information</h4>' +  (props ?
         '<b>' + 'Hex no. ' + props.gid + 
-		'</b><br />' + (props.beach_protection_ratio * 100).toFixed(2) +  ' %' + 
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA' +
-		'<br />' + 'BLABLA'
-        : 'Hover over a hexagon');
+		'</b><br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) +  ' %' + 
+		'<br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'Lowlands ' + ((1 - props.lowlands_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'Wetlands ' + ((1 - props.wetlands_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'Protected nature types ' + ((1 - props.protected_nature_types_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'Municipality roads ' + ((1 - props.municipality_road_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'Wind farms ' + ((1 - props.wind_turbine_site_ratio) * 100).toFixed(2) +  ' %'  +
+		'<br />' + 'V2 soil pollution ' + ((1 - props.v2_soil_polution_ratio) * 100).toFixed(2) +  ' %' +
+		'<br />' + 'Raw material site ' + ((1 - props.raw_material_sites_ratio) * 100).toFixed(2) +  ' %'
+        : 'Click a hexagon');
 };
 
 var info = L.control();
@@ -260,6 +468,7 @@ info.addTo(map);
 
 // LEGEND
 
+
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
@@ -280,8 +489,15 @@ legend.onAdd = function (map) {
 
 legend.addTo(map);
 
-// POP UP
 
+
+
+
+
+
+
+
+// POP UP
 
 /*
 var popup = L.popup();
@@ -294,4 +510,44 @@ function onHexClick(e) {
 }
 
 map.on('click', onHexClick);
+
+
+
+function init_geojson(n) {
+	console.log(geojson.options);
+	map.removeLayer(geojson);
+	if (n != "") {
+		sn = n;
+		console.log(sn);
+		geojson = L.geoJson(statesData, {
+		style: style
+		}).addTo(map);
+	}
+}
+
+function style(feature) {
+	console.log(sn);
+	if (sn == feature.properties.name) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.3,
+			fillColor: '#ff0000'
+		};
+	} else {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.3,
+			fillColor: '#666666'
+		};
+	}
+ }
+
+
+
 */

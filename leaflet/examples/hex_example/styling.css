@@ -4,19 +4,11 @@
   height: 700px;
 }
 
-/*
-#wms_map { 
-  float: left;
-  width: calc(100% - 300px);
-  height: 700px;
-}
-
 #info_panel {
   float: right;
   width: 300px;
   height: 700px;
 }
-*/
 
 .clickable{
     cursor: pointer;   
@@ -41,7 +33,7 @@
 }
 
 .legend i {
-    width: 18px;s
+    width: 18px;
     height: 18px;
     float: left;
     margin-right: 8px;
@@ -51,5 +43,10 @@
 .leaflet-control-slider {
 	left: 5px;
 	top: 25px;
+}
+
+.economy_slider {
+	width: 100px;
+	top: 360px;
 }
 
