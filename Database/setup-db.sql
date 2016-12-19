@@ -16,7 +16,6 @@ SELECT UpdateGeometrySRID('hexgrid_150','geom',3044);
 SELECT UpdateGeometrySRID('lake_protection_line','geom',3044);
 SELECT UpdateGeometrySRID('lakes','geom',3044);
 SELECT UpdateGeometrySRID('lowlands','geom',3044);
-SELECT UpdateGeometrySRID('municipal_plan','geom',3044);
 SELECT UpdateGeometrySRID('municipality_cut_layer','geom',3044);
 SELECT UpdateGeometrySRID('natura2000_bird_protection','geom',3044);
 SELECT UpdateGeometrySRID('natura2000_habitat','geom',3044);
