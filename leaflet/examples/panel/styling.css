@@ -1,0 +1,14 @@
+    .left-panel
+    {        
+        background-color:#ccc;
+        width:10%;
+        height:100px;
+        float:left;            
+    }
+    .right-panel
+    {        
+        background-color:Gray;
+        width:80%;
+        height:100px;
+        float:left;
+    }
