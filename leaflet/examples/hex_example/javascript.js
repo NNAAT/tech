@@ -353,7 +353,7 @@ function getMuniColor(muniString) {
 		   muniString == 'Erhvervsomraade' ? '#fb8072':
 		   muniString == 'Landomraade' ? '#80b1d3':
 		   muniString == 'Rekreativt omraade' ? '#b3de69':
-		   muniString == 'Centeromraade' ? '#1fdb426':
+		   muniString == 'Centeromraade' ? '#fdb426':
 		   muniString == 'Sommerhusomraade' ? '#fccde5':
 		                 '#d9d9d9';
 												
@@ -534,9 +534,6 @@ var overlayMaps = {
 	"Municipality framework": geoJsonMuni,
 	"Hexagons": geojson
 };
-
-//map.removeLayer(geojson);
-L.geoJson(muniFrame, {style: muniStyle}).addTo(map);
 
 L.control.layers(null, overlayMaps).addTo(map);
 
