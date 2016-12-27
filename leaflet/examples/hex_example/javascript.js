@@ -4,14 +4,12 @@
 var map = L.map('map').setView([56.28453, 10.45761], 12);
 
 // WMS-service
-L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2l6MWU4djAwMDMydW1vZTh6Mm1uMXYifQ.DXuWMBcdR94VOKS48x5bAw', {
+mapBoxWMS = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia25hc3RpIiwiYSI6ImNpd2l6MWU4djAwMDMydW1vZTh6Mm1uMXYifQ.DXuWMBcdR94VOKS48x5bAw', {
 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	maxZoom: 18,
-	minZoom: 0,
+	minZoom: 9,
 }).addTo(map);
 
-// Loading the geoJSON file
-var geojson = L.geoJson(hexGrid).addTo(map);
 
 // Sliders, user values, x.
 var economy_value = 5;
@@ -29,7 +27,9 @@ var styleRun = 0;
 var economy_slider = L.control.slider(function(value) {
    		economy_value = value;
 		if (styleRun == 1) {
-			L.geoJson(hexGrid, {style: style}).addTo(map);
+			//map.removeLayer(geojson);
+			//geojson = L.geoJson(hexGrid, {style: style}).addTo(map);
+			geojson.setStyle(style);
 		}
 	}, {
    	max: 10,
@@ -44,17 +44,14 @@ var economy_slider = L.control.slider(function(value) {
 	id: "slider_1"
 }).addTo(map);
 
-/*
-economy_slider.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'economy_slider', document.body);
-    return this._div;
-}
-*/
+
 
 var slider = L.control.slider(function(value) {
    		nature_value = value;
 		if (styleRun == 1) {
-			L.geoJson(hexGrid, {style: style}).addTo(map);
+			//map.removeLayer(geojson);
+			//geojson = L.geoJson(hexGrid, {style: style}).addTo(map);
+			geojson.setStyle(style);
 		}
 	}, {
    	max: 10,
@@ -72,7 +69,9 @@ var slider = L.control.slider(function(value) {
 var slider = L.control.slider(function(value) {
    		landscape_value = value;
 		if (styleRun == 1) {
-			L.geoJson(hexGrid, {style: style}).addTo(map);
+			//map.removeLayer(geojson);
+			//geojson = L.geoJson(hexGrid, {style: style}).addTo(map);
+			geojson.setStyle(style);
 		}
 	}, {
    	max: 10,
@@ -90,14 +89,12 @@ var slider = L.control.slider(function(value) {
 resource_value = '';
 
 var slider = L.control.slider(function(value) {
-   		old_resource_value = resource_value;
 		resource_value = value;
 		if (styleRun == 1) {
-			L.geoJson(hexGrid, {style: style}).addTo(map);
+			//map.removeLayer(geojson);
+			//geojson = L.geoJson(hexGrid, {style: style}).addTo(map);
+			geojson.setStyle(style);
 		}
-	/*	if (resource_value != '') {
-			sliderUpdate(old_resource_value, resource_value)
-		} */
 	}, {
    	max: 10,
    	value: 5,
@@ -114,12 +111,13 @@ var slider = L.control.slider(function(value) {
 opacity_value = 0.3;
 
 var slider = L.control.slider(function(value) {
-	//	prev_opacity_value = opacity_value;
-	//	console.log(prev_opacity_value);
    		opacity_value = value / 100;
 		if (styleRun == 1) {
-			L.geoJson(hexGrid, {style: style}).addTo(map);
+			//map.removeLayer(geojson); 
+			//geojson = L.geoJson(hexGrid, {style: style}).addTo(map);
+			geojson.setStyle(style);
 		}
+		
 	//	geoJson.resetStyle;
 	}, {
    	max: 100,
@@ -129,18 +127,12 @@ var slider = L.control.slider(function(value) {
    	orientation:'horizontal',
 	collapsed: false,
 	position: 'topleft',
-	title: 'Ressources',
-	Logo: 'Resources',
+	title: 'Opacity',
+	Logo: 'Opacity',
 	id: "slider_5"
 }).addTo(map);
 
 // STYLING
-
-
-
-var layersValue = []
-
-var hexValue;
 
 function calculation(feature) {
 
@@ -222,22 +214,21 @@ function calculation(feature) {
 	feature.properties.protected_ancient_sites_ratio;
 	
 	*/
-		
 	
 	// Restricted areas
-	var w_0 = 0.00;
+	var w_0 = 0.000;
 
 	// Free areas
-	var w_1 = 1.00;	
+	var w_1 = 1.000;	
 	
 	// Unreceptive areas
-	var w_a = 0.25;
+	var w_a = 0.072;
 
 	// Limiting areas
-	var w_b = 0.50;
+	var w_b = 0.279;
 
 	// Advantageous areas
-	var w_c = 0.75;
+	var w_c = 0.649;
 
 	
 	// Economy slider / user value
@@ -317,15 +308,14 @@ function calculation(feature) {
 	
 	var V_k = (1 - (A_0 / A_Hex)) * S_k;
 	
-
-
 	//console.log(A_standardized)
 	//console.log(step_1)
 	//console.log(step_2_wa_3)
 	//console.log(step_3_wb_3)
 	//console.log(step_4_wc_3)
 	
-	console.log(economy_value);
+	//console.log(economy_value);
+	//debugger;
 //	console.log(nature_value);
 //	console.log(resource_value);
 //	console.log(landscape_value);
@@ -335,18 +325,19 @@ function calculation(feature) {
 	return V_k;
 }
 
-function getColor(value) {
-    return value > 0.8 ? '#1A9641':
-	       value > 0.6 ? '#A6D96A':
+function getHexColor(value) {
+    return value > 0.6 ? '#A6D96A':
 	       value > 0.4 ? '#FFFFBF':
 	       value > 0.2 ? '#FDAE61':
 	                     '#D7191C';           
 }
 
+// value > 0.8 ? '#1A9641':
+
 function style(feature) {
 	styleRun = 1;
     return {
-        fillColor: getColor(calculation(feature)),
+        fillColor: getHexColor(calculation(feature)),
         weight: 2,
         opacity: 0.4,
         color: 'white',
@@ -355,8 +346,29 @@ function style(feature) {
     };
 }
 
+function getMuniColor(muniString) {
+	return muniString == 'Tekniske anlaeg' ? '#ffffb3':
+	       muniString == 'Boligomraade' ? '#8dd3c7':
+		   muniString == 'Blandet bolig og erhverv' ? '#bebada':
+		   muniString == 'Erhvervsomraade' ? '#fb8072':
+		   muniString == 'Landomraade' ? '#80b1d3':
+		   muniString == 'Rekreativt omraade' ? '#b3de69':
+		   muniString == 'Centeromraade' ? '#1fdb426':
+		   muniString == 'Sommerhusomraade' ? '#fccde5':
+		                 '#d9d9d9';
+												
+}
 
-L.geoJson(hexGrid, {style: style}).addTo(map);
+function muniStyle(feature) {
+    return {
+        fillColor: getMuniColor(feature.properties.anvendelse),
+        weight: 2,
+        opacity: 0.4,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.8
+    };
+}
 
 // EVENT HANDLER
 
@@ -379,18 +391,11 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
-	info.update(layer.feature.properties);
+	// info.update(layer.feature.properties);
 	panelUpdate(layer.feature.properties);
 	
 	prevClickedLayer = layer;
 }
-
-
-/*
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-}
-*/
 
 function onEachFeature(feature, layer) {
 	layer.on({
@@ -398,13 +403,13 @@ function onEachFeature(feature, layer) {
 	});
 }
 
-/*
-function sliderUpdate(oldValue, newValue) {
-	if (oldValue != newValue) {
-		geojson.setStyle(style(feature))
-	}
-}
-*/
+// Adding the geojson hexagon-layer
+
+geojson = L.geoJson(hexGrid, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
 
 // Panel sliding up and down
 $(document).on('click', 'span.clickable', function(e){
@@ -425,63 +430,87 @@ $(document).on('click', 'span.clickable', function(e){
 })
 
 
-geojson = L.geoJson(hexGrid, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map);
-
 // INFO CONTROL
 
-var jsPanel = document.querySelector('.panel-body');
+var jsPanel = document.querySelector('#info-panel-body');
 
-panelUpdate = function (props) {
+function panelUpdate(props) {
+	if ((1 - props.beach_protection_ratio) > 0) {
+		var beachProtection = '<br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var beachProtection = '';
+	}
+	
+	if ((1 - props.lowlands_ratio) > 0) {
+		var lowlands = '<br />' + 'Lowlands ' + ((1 - props.lowlands_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var lowlands = '';
+	}
+	
+	if ((1 - props.wetlands_ratio) > 0) {
+		var wetlands = '<br />' + 'Wetlands ' + ((1 - props.wetlands_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var wetlands = '';
+	}
+
+	if ((1 - props.protected_nature_types_ratio) > 0) {
+		var protectedNatureTypes = '<br />' + 'Protected nature types ' + ((1 - props.protected_nature_types_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var protectedNatureTypes = '';
+	}
+
+	if ((1 - props.municipality_road_ratio) > 0) {
+		var municipalityRoads = '<br />' + 'Municipality roads ' + ((1 - props.municipality_road_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var municipalityRoads = '';
+	}
+
+	if ((1 - props.wind_turbine_site_ratio) > 0) {
+		var windTurbineFarm = '<br />' + 'Wind farms ' + ((1 - props.wind_turbine_site_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var windTurbineFarm = '';
+	}
+
+	if ((1 - props.v2_soil_polution_ratio) > 0) {
+		var v2SoilPollution = '<br />' + 'V2 soil pollution ' + ((1 - props.v2_soil_polution_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var v2SoilPollution = '';
+	}
+
+	if ((1 - props.raw_material_sites_ratio) > 0) {
+		var rawMaterialSite = '<br />' + 'Raw material sites ' + ((1 - props.raw_material_sites_ratio) * 100).toFixed(2) + ' %';
+	} else {
+		var rawMaterialSite = '';
+	}	
     jsPanel.innerHTML = '<h4>Hexagon information</h4>' +  (props ?
-        '<b>' + 'Hex no. ' + props.gid + 
-		'</b><br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) +  ' %' + 
-		'<br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'Lowlands ' + ((1 - props.lowlands_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'Wetlands ' + ((1 - props.wetlands_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'Protected nature types ' + ((1 - props.protected_nature_types_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'Municipality roads ' + ((1 - props.municipality_road_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'Wind farms ' + ((1 - props.wind_turbine_site_ratio) * 100).toFixed(2) +  ' %'  +
-		'<br />' + 'V2 soil pollution ' + ((1 - props.v2_soil_polution_ratio) * 100).toFixed(2) +  ' %' +
-		'<br />' + 'Raw material site ' + ((1 - props.raw_material_sites_ratio) * 100).toFixed(2) +  ' %'
+        '<b>' + 'Hex no. ' + props.gid + '</b>' +
+		beachProtection +
+		lowlands +
+		wetlands +
+		protectedNatureTypes +
+		municipalityRoads +
+		windTurbineFarm +
+		v2SoilPollution +
+		rawMaterialSite 
         : 'Click a hexagon');
 };
 
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
-};
-
-// method that we will use to update the control based on feature properties passed
-info.update = function (props) {
-    this._div.innerHTML = '<h4>Hexagon information</h4>' +  (props ?
-        '<b>' + 'Hex no. ' + props.gid + '</b><br />' + (props.beach_protection_ratio * 100).toFixed(2) + ' %'
-        : 'Hover over a hexagon');
-};
-
-info.addTo(map);
 
 // LEGEND
-
 
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 0.2, 0.4, 0.8],
-        labels = [];
+        grades = [0.2, 0.4, 0.6, 0.8],
+        labels = ['Restrictive', 'Unreceptive', 'Limited', 'Advantageous'];
 
     // loop through our weights and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            '<i style="background:' + getHexColor(grades[i]) + '"></i> ' +
+            labels[i] + '<br>';
     }
 
     return div;
@@ -490,12 +519,60 @@ legend.onAdd = function (map) {
 legend.addTo(map);
 
 
+// Scale
+
+L.control.scale({
+	maxWidth: 200,
+	imperial: false
+}).addTo(map);
+
+// Adding control layer box with municipal framework in it
+
+var geoJsonMuni = L.geoJson(muniFrame, {style: muniStyle}).addTo(map);
+
+var overlayMaps = {
+	"Municipality framework": geoJsonMuni,
+	"Hexagons": geojson
+};
+
+//map.removeLayer(geojson);
+L.geoJson(muniFrame, {style: muniStyle}).addTo(map);
+
+L.control.layers(null, overlayMaps).addTo(map);
+
+$('#click').click(function()
+{   
+    $("#info_panel").toggle();     
+});
 
 
+/*
+var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+    denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+    aurora    = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+    golden    = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.');
+	
+var cities = L.layerGroup([littleton, denver, aurora, golden]);
 
+var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
 
+var grayscale = L.tileLayer(mbUrl, {id: 'MapID', attribution: mbAttr}),
+    streets   = L.tileLayer(mbUrl, {id: 'MapID', attribution: mbAttr});
+	
+var baseMaps = {
+    "Grayscale": grayscale,
+    "Streets": streets
+};
 
+var overlayMaps = {
+    "Cities": cities
+};
 
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+*/
 
 // POP UP
 
@@ -551,3 +628,48 @@ function style(feature) {
 
 
 */
+
+
+/*
+economy_slider.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'economy_slider', document.body);
+    return this._div;
+}
+*/
+
+
+/*
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Hexagon information</h4>' +  (props ?
+        '<b>' + 'Hex no. ' + props.gid + '</b><br />' + (props.beach_protection_ratio * 100).toFixed(2) + ' %'
+        : 'Hover over a hexagon');
+};
+
+info.addTo(map);
+*/
+
+/*
+function sliderUpdate(oldValue, newValue) {
+	if (oldValue != newValue) {
+		geojson.setStyle(style(feature))
+	}
+}
+*/
+
+
+/*
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+*/
+
+
