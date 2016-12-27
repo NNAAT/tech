@@ -537,12 +537,14 @@ var overlayMaps = {
 
 L.control.layers(null, overlayMaps).addTo(map);
 
+/*
+
 $('#click').click(function()
 {   
     $("#info_panel").toggle();     
 });
 
-
+*/
 /*
 var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
     denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
