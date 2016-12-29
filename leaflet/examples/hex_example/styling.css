@@ -10,6 +10,60 @@
   height: 700px;
 }
 
+#slider_panel {
+  float: left;
+  top: 80px;
+  width: 280px;
+  height: 300px;
+  position: absolute;
+  z-index: 900;
+}
+
+#economy_label {
+	top: 48px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#nature_label {
+	top: 94px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#landscape_label {
+	top: 140px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#resource_label {
+	top: 186px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#opacity_label {
+	top: 232px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
 .clickable{
     cursor: pointer;   
 }
@@ -28,8 +82,9 @@
 }
 
 .legend {
-    line-height: 18px;
+    line-height: 22px;
     color: #555;
+	width: 165px;
 }
 
 .legend i {
@@ -41,8 +96,8 @@
 }
 
 .leaflet-control-slider {
-	left: 5px;
-	top: 25px;
+	left: 80px;
+	top: 35px;
 }
 
 .economy_slider {

@@ -23,20 +23,33 @@
 	
 	<!-- DATA -->
 	<script type="text/javascript" src="hexgrid_150.js"></script>	
+	<script type="text/javascript" src="municipality_framework.js"></script>
 	
-
 </head>
 
 <body>
 	<!-- Map -->
-	<div id="map"> </div>
+	<div id="map">
+		<div id="slider_panel" class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<h5><span id="economy_label" class="label label-default">Economy</span></h5>
+				<h5><span id="nature_label" class="label label-default">Nature</span></h5>
+				<h5><span id="landscape_label" class="label label-default">Landscape</span></h5>
+				<h5><span id="resource_label" class="label label-default">Resources</span></h5>
+				<h5><span id="opacity_label" class="label label-default">Opacity</span></h5>
+			</div>
+		</div>
+	</div>
 	
 	<!-- Info panel -->
 	<div id="info_panel" class="panel panel-default">
 		<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
 		
 		<div class="panel-heading">Hexagon information</div>
-		<div class="panel-body">Click a hexagon</div>
+		<div id="info-panel-body" class="panel-body">Click a hexagon</div>
+		
+		<!-- <input type="button" id='click' value="Show/Hide" /> -->
 	</div>
 	
 	<!-- Javacript coding -->
@@ -51,6 +64,9 @@
 <!-- 
 
 <a data-toggle="collapse" href="#info_panel">Collapsible panel</a>
+
+				<input type="checkbox" id="c1" name="cc" />
+				<label for="c1">Check Box 1</label>				
 
 -->
 
