@@ -1,0 +1,99 @@
+/*
+"v1_soil_polution_ratio":,
+"municipality_road_ratio":
+"forest_reserve_ratio":
+"forest_ratio":
+"ramsar_area_ratio":
+"nature_and_wildlife_sanctuary_ratio":
+"drinking_water_interest_ratio":
+"roadsides_ratio":
+"lowlands_ratio":
+"technical_areas_ratio":
+"wind_turbine_site_ratio":
+"district_plan_ratio":
+
+"wind_speed_unreceptive_ratio":
+"church_protection_line_ratio":
+"objectid":
+"natural_bird_protection_ratio":
+"wind_speed_limited_ratio":
+
+"lake_protection_line_ratio":
+"state_road_ratio":
+"gid":
+"edge_water_stream_ratio":
+"dune_conservation_ratio":
+
+"nature_registration_ratio":
+"beach_protection_ratio":
+"available_area":
+"v2_soil_polution_ratio":
+"wind_turbine_ratio":
+"raw_material_sites_ratio":
+"wetlands_ratio":
+"protected_water_streams_ratio":
+"building_ratio":
+"railroad_ratio":
+"coast_line_zone_ratio":
+"wind_speed_advantageous_ratio":
+"sfl_areas_ratio":
+"burial_area_ratio":
+"protected_nature_types_ratio":
+"shape_area":
+"conservation_ratio":
+"forest_protection_line_ratio":
+"lakes_ratio":
+"protected_earth_stone_dikes_ratio":
+"natural_habitat_ratio":
+"protected_ancient_sites_ratio"
+*/	
+	
+	
+	
+	
+	/*
+	
+	feature.properties.v1_soil_polution_ratio; Limited / resources
+	feature.properties.municipality_road_ratio; unreceptive / landscape
+	feature.properties.forest_reserve_ratio; restrictive / nature
+	feature.properties.forest_ratio; restrictive / nature
+	feature.properties.ramsar_area_ratio;  restrictive / nature
+	feature.properties.nature_and_wildlife_sanctuary_ratio; restrictive / nature
+	feature.properties.drinking_water_interest_ratio; limited / resources
+	
+	feature.properties.roadsides_ratio; restrictive / landscape
+	feature.properties.lowlands_ratio; unreceptive / nature
+	feature.properties.technical_areas_ratio; advantageuos / economy
+	
+	feature.properties.wind_turbine_site_ratio; unreceptive / ASSUMING ITS WIND_FARM_BUFFER
+	feature.properties.church_protection_line_ratio; restrictive
+	feature.properties.natural_bird_protection_ratio; restrictive
+	feature.properties.lake_protection_line_ratio; restrictive
+	feature.properties.state_road_ratio; restrictive
+	feature.properties.edge_water_stream_ratio; restrictive
+	feature.properties.dune_conservation_ratio; restrictive
+	
+	feature.properties.nature_registration_ratio; 
+	
+	feature.properties.beach_protection_ratio;
+	
+	feature.properties.v2_soil_polution_ratio; unreceptive / resource
+	
+	feature.properties.wind_turbine_ratio; restrictive
+	
+	feature.properties.raw_material_sites_ratio; unreceptive / resource
+	
+	feature.properties.wetlands_ratio; unreceptive / nature
+	feature.properties.protected_water_streams_ratio; restrictive
+	feature.properties.building_ratio; restrictive
+	feature.properties.railroad_ratio; /restrictive
+	feature.properties.coast_line_zone_ratio;
+	feature.properties.burial_area_ratio;
+	feature.properties.protected_nature_types_ratio;
+	feature.properties.conservation_ratio;
+	feature.properties.lakes_ratio;
+	feature.properties.protected_earth_stone_dikes_ratio;
+	feature.properties.natural_habitat_ratio;
+	feature.properties.protected_ancient_sites_ratio;
+	
+	*/
