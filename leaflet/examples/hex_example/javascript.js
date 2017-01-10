@@ -201,7 +201,7 @@ function calculation(feature) {
 	var A_0 = restricted_area;
 
 	// Free area
-	var A_1 = 0;
+	var A_1 = feature.properties.uncovered_area_ratio;
 
 	// Category a areas (unreceptive)
 	var A_a1 = wind_speed_unreceptive;
@@ -297,7 +297,7 @@ function calculation(feature) {
 	// console.log(landscape_value);
 	// console.log(S_k);
 
-	console.log(V_k);
+	// console.log(V_k);
 
 	return V_k;
 }
@@ -421,6 +421,19 @@ $(document).on('click', 'span.clickable', function(e){
 
 // INFO CONTROL
 
+// Takes in a string and a desired length. The function fills in white space until the desired length has been achieved.
+function insertWhiteSpace(string, length) {
+	if (string.length < length) {
+		for (i = 0; i < (length - string.length); i++) {
+			string += '\u00A0';
+		}
+	} else {
+		string = string;
+	}
+
+	return string;
+}
+
 // Defining the variable for the info panel's body
 var jsPanel = document.querySelector('#info-panel-body');
 
@@ -429,225 +442,291 @@ var jsPanel = document.querySelector('#info-panel-body');
 function panelUpdate(props) {
 	// Layers are listed if they cover anything of the hexagon. It's displayed in percentage with 2 decimals.
 
-	if ((1 - props.beach_protection_ratio) > 0) {
-		var beachProtection = '<br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) + ' %';
-	} else {
-		var beachProtection = '';
-	}
-
-	if ((1 - props.lowlands_ratio) > 0) {
-		var lowlands = '<br />' + 'Lowlands ' + ((props.lowlands_ratio) * 100).toFixed(2) + ' %';
+	if ((props.lowlands_ratio) > 0) {
+		var lowlands = '<br />' + 'Lowlands';
+		lowlands = insertWhiteSpace(lowlands, 81);
+		lowlands += ': ' + ((props.lowlands_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var lowlands = '';
 	}
 
-	if ((1 - props.wetlands_ratio) > 0) {
-		var wetlands = '<br />' + 'Wetlands ' + ((props.wetlands_ratio) * 100).toFixed(2) + ' %';
+	if ((props.wetlands_ratio) > 0) {
+		var wetlands = '<br />' + 'Wetlands';
+		wetlands = insertWhiteSpace(wetlands, 82);
+		wetlands += ': ' + ((props.wetlands_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var wetlands = '';
 	}
 
 	if ((1 - props.protected_nature_types_ratio) > 0) {
-		var protectedNatureTypes = '<br />' + 'Protected nature types ' + ((props.protected_nature_types_ratio) * 100).toFixed(2) + ' %';
+		var protectedNatureTypes = '<br />' + 'Protected nature types';
+		protectedNatureTypes = insertWhiteSpace(protectedNatureTypes, 53);
+		protectedNatureTypes += ': ' + ((1 - props.protected_nature_types_ratio) * 100).toFixed(2) + ' %';
+		
 	} else {
 		var protectedNatureTypes = '';
 	}
 
-	if ((1 - props.municipality_road_ratio) > 0) {
-		var municipalityRoads = '<br />' + 'Municipality roads ' + ((props.municipality_road_ratio) * 100).toFixed(2) + ' %';
+	if ((props.municipality_road_ratio) > 0) {		
+		var municipalityRoads = '<br />' + 'Municipality roads';
+		municipalityRoads = insertWhiteSpace(municipalityRoads, 65);
+		municipalityRoads += ': ' + ((props.municipality_road_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var municipalityRoads = '';
 	}
 
-	if ((1 - props.wind_turbine_site_ratio) > 0) {
-		var windTurbineFarm = '<br />' + 'Wind farms ' + ((props.wind_turbine_site_ratio) * 100).toFixed(2) + ' %';
+	if ((props.wind_turbine_site_ratio) > 0) {
+		var windTurbineFarm = '<br />' + 'Wind farms';
+		windTurbineFarm = insertWhiteSpace(windTurbineFarm, 78);
+		windTurbineFarm += ': ' + ((props.wind_turbine_site_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var windTurbineFarm = '';
 	}
 
-	if ((1 - props.v2_soil_polution_ratio) > 0) {
-		var v2SoilPollution = '<br />' + 'V2 soil pollution ' + ((props.v2_soil_polution_ratio) * 100).toFixed(2) + ' %';
+	if ((props.v2_soil_polution_ratio) > 0) {
+		var v2SoilPollution = '<br />' + 'V2 soil pollution';
+		v2SoilPollution = insertWhiteSpace(v2SoilPollution, 71);
+		v2SoilPollution += ': ' + ((props.v2_soil_polution_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var v2SoilPollution = '';
 	}
 
-	if ((1 - props.v1_soil_polution_ratio) > 0) {
-		var v1SoilPollution = '<br />' + 'V1 soil pollution ' + ((props.v1_soil_polution_ratio) * 100).toFixed(2) + ' %';
+	if ((props.v1_soil_polution_ratio) > 0) {
+		var v1SoilPollution = '<br />' + 'V1 soil pollution';
+		v1SoilPollution = insertWhiteSpace(v1SoilPollution, 71);
+		v1SoilPollution += ': ' + ((props.v1_soil_polution_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var v1SoilPollution = '';
 	}
 
-
-	if ((1 - props.raw_material_sites_ratio) > 0) {
-		var rawMaterialSite = '<br />' + 'Raw material sites ' + ((props.raw_material_sites_ratio) * 100).toFixed(2) + ' %';
+	if ((props.raw_material_sites_ratio) > 0) {
+		var rawMaterialSite = '<br />' + 'Raw material sites';
+		rawMaterialSite = insertWhiteSpace(rawMaterialSite, 64);
+		rawMaterialSite += ': ' + ((props.raw_material_sites_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var rawMaterialSite = '';
 	}
 
 	if ((1 - props.forest_reserve_ratio) > 0) {
-		var forestReserve = '<br />' + 'Forest reserve areas ' + ((props.forest_reserve_ratio) * 100).toFixed(2) + ' %';
+		var forestReserve = '<br />' + 'Forest reserve areas';
+		forestReserve = insertWhiteSpace(forestReserve, 58);
+		forestReserve += ': ' + ((1 - props.forest_reserve_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var forestReserve = '';
 	}
 
 	if ((1 - props.forest_ratio) > 0) {
-		var forest = '<br />' + 'Forest ' + ((props.forest_ratio) * 100).toFixed(2) + ' %';
+		var forest = '<br />' + 'Forest';
+		forest = insertWhiteSpace(forest, 89);
+		forest += ': ' + ((1 - props.forest_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var forest = '';
 	}
 
 	if ((1 - props.ramsar_area_ratio) > 0) {
-		var ramsar = '<br />' + 'Ramsar areas ' + ((props.ramsar_area_ratio) * 100).toFixed(2) + ' %';
+		var ramsar = '<br />' + 'Ramsar areas';
+		ramsar = insertWhiteSpace(ramsar, 70);
+		ramsar += ': ' + ((1 - props.ramsar_area_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var ramsar = '';
 	}
 
 	if ((1 - props.nature_and_wildlife_sanctuary_ratio) > 0) {
-		var natureWildlifeSanctuary = '<br />' + 'Nature and wildlife sancutary ' + ((1 - props.nature_and_wildlife_sanctuary_ratio) * 100).toFixed(2) + ' %';
+		var natureWildlifeSanctuary = '<br />' + 'Nature and wildlife sanctuary';
+		natureWildlifeSanctuary = insertWhiteSpace(natureWildlifeSanctuary, 41);
+		natureWildlifeSanctuary += ': ' + ((1 - props.nature_and_wildlife_sanctuary_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var natureWildlifeSanctuary = '';
 	}
 
-	if ((1 - props.drinking_water_interest_ratio) > 0) {
-		var drinkingWaterInterests = '<br />' + 'Drinking water interests ' + ((1 - props.drinking_water_interest_ratio) * 100).toFixed(2) + ' %';
+	if ((props.drinking_water_interest_ratio) > 0) {
+		var drinkingWaterInterests = '<br />' + 'Drinking water interests';
+		drinkingWaterInterests = insertWhiteSpace(drinkingWaterInterests, 51);
+		drinkingWaterInterests += ': ' + ((props.drinking_water_interest_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var drinkingWaterInterests = '';
 	}
 
 	if ((1 - props.roadsides_ratio) > 0) {
-		var roadsides = '<br />' + 'Roadsides ' + ((1 - props.roadsides_ratio) * 100).toFixed(2) + ' %';
+		var roadsides = '<br />' + 'Roadsides';
+		roadsides = insertWhiteSpace(roadsides, 78);
+		roadsides += ': ' + ((1 - props.roadsides_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var roadsides = '';
 	}
 
-	if ((1 - props.technical_areas_ratio) > 0) {
-		var technicalAreas = '<br />' + 'Technical areas ' + ((1 - props.technical_areas_ratio) * 100).toFixed(2) + ' %';
+	if ((props.technical_areas_ratio) > 0) {
+		var technicalAreas = '<br />' + 'Technical areas';
+		technicalAreas = insertWhiteSpace(technicalAreas, 68);
+		technicalAreas += ': ' + ((props.technical_areas_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var technicalAreas = '';
 	}
 
-	if ((1 - props.wind_speed_unreceptive_ratio) > 0) {
-		var windSpeedUnreceptive = '<br />' + 'Low average wind speeds ' + ((1 - props.wind_speed_unreceptive_ratio) * 100).toFixed(2) + ' %';
+	if ((props.wind_speed_unreceptive_ratio) > 0) {
+		var windSpeedUnreceptive = '<br />' + 'Low average wind speeds';
+		windSpeedUnreceptive = insertWhiteSpace(windSpeedUnreceptive, 43);
+		windSpeedUnreceptive += ': ' + ((props.wind_speed_unreceptive_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var windSpeedUnreceptive = '';
 	}
 
-	if ((1 - props.wind_speed_limited_ratio) > 0) {
-		var windSpeedLimited = '<br />' + 'Medium average wind speeds ' + ((1 - props.wind_speed_limited_ratio) * 100).toFixed(2) + ' %';
+	if ((props.wind_speed_limited_ratio) > 0) {
+		var windSpeedLimited = '<br />' + 'Medium average wind speeds';
+		windSpeedLimited = insertWhiteSpace(windSpeedLimited, 34);
+		windSpeedLimited += ': ' + ((props.wind_speed_limited_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var windSpeedLimited = '';
 	}
 
-	if ((1 - props.wind_speed_advantageous_ratio) > 0) {
-		var windSpeedAdvantageous = '<br />' + 'High average wind speeds ' + ((1 - props.wind_speed_advantageous_ratio) * 100).toFixed(2) + ' %';
+	if ((props.wind_speed_advantageous_ratio) > 0) {
+		var windSpeedAdvantageous = '<br />' + 'High average wind speeds';
+		windSpeedAdvantageous = insertWhiteSpace(windSpeedAdvantageous, 43);
+		windSpeedAdvantageous += ': ' + ((props.wind_speed_advantageous_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var windSpeedAdvantageous = '';
 	}
 
-	if ((1 - props.church_protection_line_ratio) > 0) {
-		var churchProtection = '<br />' + 'Church protection line ' + ((1 - props.church_protection_line_ratio) * 100).toFixed(2) + ' %';
+	if ((props.church_protection_line_ratio) > 0) {
+		var churchProtection = '<br />' + 'Church protection line';
+		churchProtection = insertWhiteSpace(churchProtection, 55);
+		churchProtection += ': ' + ((props.church_protection_line_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var churchProtection = '';
 	}
 
 	if ((1 - props.natural_bird_protection_ratio) > 0) {
-		var naturalBirdProtection = '<br />' + 'Natural bird protection ' + ((1 - props.natural_bird_protection_ratio) * 100).toFixed(2) + ' %';
+		var naturalBirdProtection = '<br />' + 'Natural bird protection';
+		naturalBirdProtection = insertWhiteSpace(naturalBirdProtection, 56);
+		naturalBirdProtection += ': ' + ((1 - props.natural_bird_protection_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var naturalBirdProtection = '';
 	}
 
-	if ((1 - props.lake_protection_line_ratio) > 0) {
-		var lakeProtection = '<br />' + 'Lake protection line ' + ((1 - props.lake_protection_line_ratio) * 100).toFixed(2) + ' %';
+	if ((props.lake_protection_line_ratio) > 0) {
+		var lakeProtection = '<br />' + 'Lake protection line';
+		lakeProtection = insertWhiteSpace(lakeProtection, 61);
+		lakeProtection += ': ' + ((props.lake_protection_line_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var lakeProtection = '';
 	}
 
 	if ((1 - props.state_road_ratio) > 0) {
-		var stateRoad = '<br />' + 'State roads ' + ((1 - props.state_road_ratio) * 100).toFixed(2) + ' %';
+		var stateRoad = '<br />' + 'State roads';
+		stateRoad = insertWhiteSpace(stateRoad, 78);
+		stateRoad += ': ' + ((1 - props.state_road_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var stateRoad = '';
 	}
 
 	if ((1 - props.edge_water_stream_ratio) > 0) {
-		var waterStream = '<br />' + 'Water streams ' + ((1 - props.edge_water_stream_ratio) * 100).toFixed(2) + ' %';
+		var waterStream = '<br />' + 'Water streams';
+		waterStream = insertWhiteSpace(waterStream, 70);
+		waterStream += ': ' + ((1 - props.edge_water_stream_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var waterStream = '';
 	}
 
 	if ((1 - props.dune_conservation_ratio) > 0) {
-		var duneConservation = '<br />' + 'Dune conservation ' + ((1 - props.dune_conservation_ratio) * 100).toFixed(2) + ' %';
+		var duneConservation = '<br />' + 'Dune conservation';
+		duneConservation = insertWhiteSpace(duneConservation, 63);
+		duneConservation += ': ' + ((1 - props.dune_conservation_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var duneConservation = '';
 	}
 
-	if ((1 - props.beach_protection_ratio) > 0) {
-		var beachProtection = '<br />' + 'Beach protection ' + ((1 - props.beach_protection_ratio) * 100).toFixed(2) + ' %';
+	if ((props.beach_protection_ratio) > 0) {
+		var beachProtection = '<br />' + 'Beach protection';
+		beachProtection = insertWhiteSpace(beachProtection, 67);
+		beachProtection += ': ' + ((props.beach_protection_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var beachProtection = '';
 	}
 
 	if ((1 - props.wind_turbine_ratio) > 0) {
-		var windTurbineTooClose = '<br />' + 'Wind turbine covered area ' + ((1 - props.wind_turbine_ratio) * 100).toFixed(2) + ' %';
+		var windTurbineTooClose = '<br />' + 'Wind turbine rotor too close';
+		windTurbineTooClose = insertWhiteSpace(windTurbineTooClose, 45);
+		windTurbineTooClose += ': ' + ((1 - props.wind_turbine_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var windTurbineTooClose = '';
 	}
 
 	if ((1 - props.building_ratio) > 0) {
-		var buildings = '<br />' + 'Buildings ' + ((1 - props.building_ratio) * 100).toFixed(2) + ' %';
+		var buildings = '<br />' + 'Buildings';
+		buildings = insertWhiteSpace(buildings, 84);
+		buildings += ': ' + ((1 - props.building_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var buildings = '';
 	}
 
 	if ((1 - props.railroad_ratio) > 0) {
-		var railroad = '<br />' + 'Railroad ' + ((1 - props.railroad_ratio) * 100).toFixed(2) + ' %';
+		var railroad = '<br />' + 'Railroad';
+		railroad = insertWhiteSpace(railroad, 87);
+		railroad += ': ' + ((1 - props.railroad_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var railroad = '';
 	}
 
-	if ((1 - props.coast_line_zone_ratio) > 0) {
-		var coastLine = '<br />' + 'Coast line ' + ((1 - props.coast_line_zone_ratio) * 100).toFixed(2) + ' %';
+	if ((props.coast_line_zone_ratio) > 0) {
+		var coastLine = '<br />' + 'Coast line';
+		coastLine = insertWhiteSpace(coastLine, 84);
+		coastLine += ': ' + ((props.coast_line_zone_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var coastLine = '';
 	}
 
 	if ((1 - props.burial_area_ratio) > 0) {
-		var burialArea = '<br />' + 'Burial area ' + ((1 - props.burial_area_ratio) * 100).toFixed(2) + ' %';
+		var burialArea = '<br />' + 'Burial area';
+		burialArea = insertWhiteSpace(burialArea, 82);
+		burialArea += ': ' + ((1 - props.burial_area_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var burialArea = '';
 	}
 
 	if ((1 - props.conservation_ratio) > 0) {
-		var conservation = '<br />' + 'Conservated area ' + ((1 - props.conservation_ratio) * 100).toFixed(2) + ' %';
+		var conservation = '<br />' + 'Conservated area';
+		conservation = insertWhiteSpace(conservation, 66);
+		conservation += ': ' + ((1 - props.conservation_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var conservation = '';
 	}
 
-	if ((1 - props.forest_protection_line_ratio) > 0) {
-		var forestProtection = '<br />' + 'Forest protection line ' + ((1 - props.forest_protection_line_ratio) * 100).toFixed(2) + ' %';
+	if ((props.forest_protection_line_ratio) > 0) {
+		var forestProtection = '<br />' + 'Forest protection line';
+		forestProtection = insertWhiteSpace(forestProtection, 61);
+		forestProtection += ': ' + ((props.forest_protection_line_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var forestProtection = '';
 	}
 
 	if ((1 - props.lakes_ratio) > 0) {
-		var lakes = '<br />' + 'Lakes ' + ((1 - props.lakes_ratio) * 100).toFixed(2) + ' %';
+		var lakes = '<br />' + 'Lakes';
+		lakes = insertWhiteSpace(lakes, 92);
+		lakes += ': ' + ((1 - props.lakes_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var lakes = '';
 	}
 
-	if ((1 - props.protected_earth_stone_dikes_ratio) > 0) {
-		var earthAndStoneDikes = '<br />' + 'Earth and stone dikes ' + ((1 - props.protected_earth_stone_dikes_ratio) * 100).toFixed(2) + ' %';
+	if ((props.protected_earth_stone_dikes_ratio) > 0) {
+		var earthAndStoneDikes = '<br />' + 'Earth and stone dikes';
+		earthAndStoneDikes = insertWhiteSpace(earthAndStoneDikes, 56);
+		earthAndStoneDikes += ': ' + ((props.protected_earth_stone_dikes_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var earthAndStoneDikes = '';
 	}
 
 	if ((1 - props.natural_habitat_ratio) > 0) {
-		var naturalHabitat = '<br />' + 'Natural habitat ' + ((1 - props.natural_habitat_ratio) * 100).toFixed(2) + ' %';
+		var naturalHabitat = '<br />' + 'Natural habitat';
+		naturalHabitat = insertWhiteSpace(naturalHabitat, 74);
+		naturalHabitat += ': ' + ((1 - props.natural_habitat_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var naturalHabitat = '';
 	}
 
 	if ((1 - props.protected_ancient_sites_ratio) > 0) {
-		var ancientSites = '<br />' + 'Ancient sites ' + ((1 - props.protected_ancient_sites_ratio) * 100).toFixed(2) + ' %';
+		var ancientSites = '<br />' + 'Ancient sites';
+		ancientSites = insertWhiteSpace(ancientSites, 78);
+		ancientSites += ': ' + ((1 - props.protected_ancient_sites_ratio) * 100).toFixed(2) + ' %';
 	} else {
 		var ancientSites = '';
 	}
@@ -655,7 +734,6 @@ function panelUpdate(props) {
 	// Adding all the string variables to the info panel
     jsPanel.innerHTML = '<h4>Hexagon information</h4>' +  (props ?
         '<b>' + 'Hex no. ' + props.gid + '</b>' +
-		beachProtection +
 		lowlands +
 		wetlands +
 		protectedNatureTypes +
@@ -703,7 +781,7 @@ var legendHex = L.control({position: 'bottomright'});
 legendHex.onAdd = function(map) {
 
     var div = L.DomUtil.create('div', 'infoHex legendHex'),
-        hexGrades = [0.000, ((0.000 + 0.073) / 2), ((0.072 + 0.280) / 2), ((0.279 + 0.650) / 2)],
+        hexGrades = [0.000, 0.037, 0.073, 0.109],
         hexLabels = ['Restrictive', 'Unreceptive', 'Limited', 'Advantageous'];
 
     // loop through our weights and generate a label with a colored square for each interval
