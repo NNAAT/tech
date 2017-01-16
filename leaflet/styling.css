@@ -1,8 +1,134 @@
-#mapid { height: 450px; }
-#mapid { width: 800px; }
-		
+#map { 
+  float: left;
+  width: calc(100% - 300px);
+  height: 700px;
+}
+
+#info_panel {
+  float: right;
+  width: 300px;
+  height: 700px;
+}
+
+#slider_panel {
+  float: left;
+  top: 100px;
+  width: 280px;
+  height: 290px;
+  position: absolute;
+  z-index: 900;
+}
+
+#economy_label {
+	top: 48px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#nature_label {
+	top: 94px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#landscape_label {
+	top: 140px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#resource_label {
+	top: 186px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+#opacity_label {
+	top: 232px;
+	left: 5px;
+	width: 80px;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+}
+
+.clickable{
+    cursor: pointer;   
+}
+
+.infoHex {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.infoHex h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legendHex {
+    line-height: 22px;
+    color: #555;
+	width: 165px;
+}
+
+.legendHex i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.infoMuni {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.infoMuni h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legendMuni {
+    line-height: 22px;
+    color: #555;
+	width: 165px;
+}
+
+.legendMuni i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
 .leaflet-control-slider {
-	top: 1.5em;
-	left: 0em;
+	left: 80px;
+	top: 55px;
+}
+
+.economy_slider {
+	width: 100px;
+	top: 360px;
 }
 
